@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Japanese Learning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="icon" href="/images/url.png">
+</head>
+<body>
+	<div id="app">
+		<table>
+			<tr>
+				<td>{{this.totalQuestionsCount - this.alphabetsArray.length}}/{{this.totalQuestionsCount}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<span>{{japaneseWord}}</span>
+				</td>
+				<td>
+					<img v-if="showResultIcon" :src="isCorrect?'/images/accept.png':'/images/remove.png'" id="icon">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" v-model="romanWord" @Keypress="triggerCheckFn">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<button v-if="!showResult" @Click="check">Check</button>
+					<span>{{" "}}</span>
+					<button v-if="showResult" @Click="getWords">Again</button>
+				</td>
+				<td></td>
+			</tr>
+			<tr v-if="showResult">
+				<td>Correct Rate:{{correctRate}}</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	const { createApp } = Vue
+	createApp({
+	  data() {
+	    return {
+	      apiRoute: "/api/alphabet",
+	      alphabetsArray: [],
+		  japaneseWord: null,
+		  correctAnswer: null,
+		  romanWord: null,
+		  isCorrect: false,
+		  totalQuestionsCount: 0,
+		  correctAnswerCount: 0,
+		  checkedCount: 0,
+		  showResultIcon: false
+	    }
+	  },
+	  created(){
+		  this.getWords()
+	  },
+	  methods:{
+		  async getWords(){
+			const init = {
+				method:"GET"
+			}
+			const res = await fetch(this.apiRoute, init).then(data=> data.json());
+			for (const wordObj in res) {
+				this.alphabetsArray.push({key: wordObj, value: res[wordObj]})
+			}
+			this.totalQuestionsCount = this.alphabetsArray.length
+			this.correctAnswerCount = 0
+			this.checkedCount = 0
+			this.romanWord = null
+			const index = Math.floor(Math.random() * this.alphabetsArray.length)
+			this.japaneseWord = this.alphabetsArray[index].key
+			this.correctAnswer = this.alphabetsArray[index].value
+			this.alphabetsArray.splice(index, 1)
+		  },
+		  changeWord(){
+			if(!this.romanWord){
+				alert("Please answer this question!")
+			}
+			if(this.alphabetsArray.length!==0 && this.romanWord){
+				const index = Math.floor(Math.random() * this.alphabetsArray.length)
+				this.japaneseWord = this.alphabetsArray[index].key
+				this.correctAnswer = this.alphabetsArray[index].value
+				this.alphabetsArray.splice(index, 1)
+				this.romanWord = null
+			}
+		  },
+		  check(){
+			if(!this.romanWord){
+				alert("Please answer this question!")
+			} else {
+				this.isCorrect = this.correctAnswer == this.romanWord
+				this.showResultIcon = true
+				this.checkedCount ++
+				const _this = this
+				if (_this.isCorrect) {
+					_this.correctAnswerCount++
+				}
+				setTimeout(function(){
+					_this.changeWord()
+					_this.showResultIcon = false
+				}, 1000)
+			}
+		  },
+		  triggerCheckFn(e){
+			if(e.keyCode === 13){
+				this.check()
+			}
+		  }
+	  },
+	  computed:{
+		correctRate(){
+			return ((this.correctAnswerCount / this.totalQuestionsCount) * 100).toFixed(0) + '%'
+		},
+		showResult(){
+			return this.checkedCount === this.totalQuestionsCount
+		}
+	  }
+	}).mount('#app')
+</script>
+<style>
+	#icon{
+		width:18px;
+		height:18px;
+	}
+	tr{
+		height: 26px;
+		font-size: 50px;
+	}
+	input{
+		margin-top: 2px;
+		font-size: 28px;
+	}
+	#app>table{
+		margin: auto;
+		padding-top: 150px;
+	}
+	button{
+		height: 30px;
+		width: 100%;
+		font-size: 24px;
+	}
+</style>
+</html>
