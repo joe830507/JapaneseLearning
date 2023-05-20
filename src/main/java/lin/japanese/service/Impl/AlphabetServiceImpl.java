@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lin.japanese.domain.Alphabet;
+import lin.japanese.dto.AlphabetAddDto;
 import lin.japanese.repository.AlphabetRespoitory;
 import lin.japanese.service.AlphabetService;
 
@@ -18,6 +19,11 @@ public class AlphabetServiceImpl implements AlphabetService {
 	@Override
 	public List<Alphabet> getAlphabets() {
 		return alphabetRespoitory.findAll();
+	}
+
+	@Override
+	public void addAlphabet(AlphabetAddDto addDto) {
+		alphabetRespoitory.save(addDto.toAlphabet());
 	}
 
 }
