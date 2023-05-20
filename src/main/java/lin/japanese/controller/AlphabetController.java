@@ -1,4 +1,4 @@
-package lin.personal.learning;
+package lin.japanese.controller;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import lin.japanese.service.AlphabetService;
 
 @RestController
 @RequestMapping(value = "/api/alphabet")

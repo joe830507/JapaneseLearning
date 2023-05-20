@@ -1,4 +1,4 @@
-package lin.personal.learning;
+package lin.japanese.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

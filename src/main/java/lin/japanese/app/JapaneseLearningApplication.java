@@ -1,10 +1,10 @@
-package lin.personal.learning;
+package lin.japanese.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "lin.personal")
 @EnableJpaRepositories
 public class JapaneseLearningApplication {
 

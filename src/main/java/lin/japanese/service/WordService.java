@@ -1,4 +1,6 @@
-package lin.personal.learning;
+package lin.japanese.service;
+
+import lin.japanese.dto.WordAddDto;
 
 public interface WordService {
 
