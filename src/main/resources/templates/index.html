@@ -69,7 +69,7 @@
 				method:"GET"
 			}
 			const res = await fetch(this.apiRoute, init).then(data=> data.json());
-			for (const wordObj in res) {
+			for (const wordObj in res.resBody) {
 				this.alphabetsArray.push({key: wordObj, value: res[wordObj]})
 			}
 			this.totalQuestionsCount = this.alphabetsArray.length
