@@ -6,5 +6,5 @@ import lin.japanese.domain.Alphabet;
 
 public interface AlphabetService {
 
-	public List<Alphabet> getWords();
+	public List<Alphabet> getAlphabets();
 }

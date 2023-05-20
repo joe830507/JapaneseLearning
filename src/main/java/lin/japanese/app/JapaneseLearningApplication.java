@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = "lin.personal")
+@SpringBootApplication(scanBasePackages = "lin.japanese")
 @EnableJpaRepositories
 public class JapaneseLearningApplication {
 

@@ -16,7 +16,7 @@ public class AlphabetServiceImpl implements AlphabetService {
 	AlphabetRespoitory alphabetRespoitory;
 
 	@Override
-	public List<Alphabet> getWords() {
+	public List<Alphabet> getAlphabets() {
 		return alphabetRespoitory.findAll();
 	}
 

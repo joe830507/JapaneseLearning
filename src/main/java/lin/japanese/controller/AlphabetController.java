@@ -27,7 +27,7 @@ public class AlphabetController {
 	
 	@GetMapping
 	public ResponseEntity<Map<String,String>> getWords(){
-		Map<String, String> resultMap = alphabetService.getWords().stream()
+		Map<String, String> resultMap = alphabetService.getAlphabets().stream()
 				.collect(Collectors.toMap(item -> item.getJapanese(), item -> item.getRoma()));
 		return ResponseEntity.ok(resultMap);
 	}

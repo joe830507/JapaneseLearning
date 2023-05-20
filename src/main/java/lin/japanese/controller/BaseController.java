@@ -1,13 +1,18 @@
 package lin.japanese.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import lin.japanese.dto.ResponseWrapper;
 
 public class BaseController {
-	protected Map<String, Object> defaultOk() {
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("message", "Ok");
-		resultMap.put("resBody", null);
-		return resultMap;
+	protected ResponseWrapper defaultOk() {
+		ResponseWrapper wrapper = new ResponseWrapper();
+		wrapper.setMessage("ok");
+		return wrapper;
+	}
+
+	protected ResponseWrapper defaultOkWithResBody(Object resBody) {
+		ResponseWrapper wrapper = new ResponseWrapper();
+		wrapper.setMessage("ok");
+		wrapper.setResBody(resBody);
+		return wrapper;
 	}
 }
