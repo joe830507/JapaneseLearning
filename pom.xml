@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>lin.japanese</groupId>
-	<artifactId>japanese</artifactId>
+	<artifactId>JapaneseLearning</artifactId>
 	<version>1.0.0</version>
 	<name>JapaneseLearning</name>
 	<description>Japanese Learning</description>
