@@ -7,7 +7,9 @@
 </head>
 <body>
 	<div id="app">
-		<table>
+		<div :class="currentTage==='Alphabet'?'active':''" @Click="currentTage='Alphabet'">Alphabet</div>
+		<div :class="currentTage==='Word'?'active':''" @Click="currentTage='Word'">Word</div>
+		<table v-if="currentTage==='Alphabet'">
 			<tr>
 				<td>{{this.totalQuestionsCount - this.alphabetsArray.length}}/{{this.totalQuestionsCount}}</td>
 				<td></td>
@@ -57,7 +59,8 @@
 		  totalQuestionsCount: 0,
 		  correctAnswerCount: 0,
 		  checkedCount: 0,
-		  showResultIcon: false
+		  showResultIcon: false,
+		  currentTage:'Alphabet'
 	    }
 	  },
 	  created(){
@@ -147,6 +150,9 @@
 		height: 30px;
 		width: 100%;
 		font-size: 24px;
+	}
+	.active{
+		color: red;
 	}
 </style>
 </html>
