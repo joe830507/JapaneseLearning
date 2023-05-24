@@ -24,7 +24,10 @@ public class WordServiceImpl implements WordService {
 	@Override
 	public List<WordInfoDto> getWords() {
 		return wordRepository.findAll().stream()
-				.map(word -> new WordInfoDto(word.getJapanese(), word.getRoma(), word.getChinese())).toList();
+				.map(word -> new WordInfoDto(word.getId(), word.getJapanese(), word.getChinese(),
+						word.getJapaneseSentence(),
+						word.getChineseSententce()))
+				.toList();
 	}
 
 }

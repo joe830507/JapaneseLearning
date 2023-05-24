@@ -24,8 +24,10 @@ public class Word {
 	private Long id;
 	@Column(name = "JAPANESE")
 	private String japanese;
-	@Column(name = "ROMA")
-	private String roma;
 	@Column(name = "CHINESE")
 	private String chinese;
+	@Column(name = "JAPANESE_SENTENCE")
+	private String japaneseSentence;
+	@Column(name = "CHINESE_SENTENCE")
+	private String chineseSententce;
 }
