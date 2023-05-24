@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WordInfoDto {
+	private Long id;
 	private String japanese;
-	private String roma;
 	private String chinese;
+	private String japaneseSentence;
+	private String chineseSententce;
 }
