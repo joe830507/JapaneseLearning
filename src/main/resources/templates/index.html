@@ -52,7 +52,7 @@
 <script src="/js/50_alphabet.js"></script>
 <script>
 	const {createApp} = Vue
-	createApp({
+	const vm = createApp({
 		data() {
 			return {
 				alphabetObj:{
@@ -137,7 +137,8 @@
 				return this.checkedCount === this.totalQuestionsCount
 			}
 		}
-	}).mount('#app')
+	})
+	vm.mount('#app')
 </script>
 <style>
 	#icon {
