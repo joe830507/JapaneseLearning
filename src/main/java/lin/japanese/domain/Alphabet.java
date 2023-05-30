@@ -26,4 +26,10 @@ public class Alphabet {
 	private String japanese;
 	@Column(name = "ROMA")
 	private String roma;
+	/**
+	 * A:平假名, A-1:平假名-濁音、半濁音, A-2:平假名-抝音1, A-3:平假名-抝音2, B:片假名, B-1:片假名-濁音、半濁音,
+	 * B-2:片假名-抝音1, B-3:片假名-抝音2
+	 */
+	@Column(name = "CATEGORY")
+	private String category;
 }

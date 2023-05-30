@@ -11,8 +11,10 @@ public class AlphabetAddDto {
 	private String japanese;
 	@NotBlank(message = "Roma should not be blank")
 	private String roma;
+	@NotBlank(message = "Category should not be blank")
+	private String category;
 
 	public Alphabet toAlphabet() {
-		return new Alphabet(null, japanese, roma);
+		return new Alphabet(null, japanese, roma, category);
 	}
 }

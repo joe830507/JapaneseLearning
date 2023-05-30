@@ -9,9 +9,24 @@
 
 <body>
 	<div id="app">
-		<div :class="currentTag==='Alphabet'?'active':''" @Click="currentTag='Alphabet'">Alphabet</div>
-		<div :class="currentTag==='Word'?'active':''" @Click="currentTag='Word'">Word</div>
-		<table v-if="currentTag==='Alphabet'">
+		<select v-model="currentSection">
+			<option value="Alphabet">五十音</option>
+			<option value="Word">單字</option>
+		</select>
+		<select 
+			v-if="currentSection==='Alphabet'" 
+			v-model="currentCategory"
+			@Change="getAlphabets">
+			<option value="A">平假名</option>
+			<option value="A-1">平假名-濁音、半濁音</option>
+			<option value="A-2">平假名-抝音1</option>
+			<option value="A-3">平假名-抝音2</option>
+			<option value="B">片假名</option>
+			<option value="B-1">片假名-濁音、半濁音</option>
+			<option value="B-2">片假名-抝音1</option>
+			<option value="B-3">片假名-抝音2</option>
+		</select>
+		<table v-if="currentSection==='Alphabet'">
 			<tr>
 				<td>{{this.totalQuestionsCount - this.alphabetsArray.length}}/{{this.totalQuestionsCount}}</td>
 				<td></td>
@@ -68,25 +83,41 @@
 				correctAnswerCount: 0,
 				checkedCount: 0,
 				showResultIcon: false,
-				currentTag: 'Alphabet'
+				currentSection: 'Alphabet',
+				currentCategory: 'A'
 			}
 		},
 		created() {
-			if (this.currentTag === 'Alphabet') {
+			if (this.currentSection === 'Alphabet') {
 				this.getAlphabets()
 			}
 		},
 		methods: {
 			async getAlphabets() {
-				const init = {
+				const res = await this.fetchAlphabets()
+				if(Object.keys(res.resBody).length === 0) return;
+				this.emptyArray()
+				this.putAllAlphabetsIntoArray(res)
+				this.initializeCounts()
+				this.adjustCurrentAlphabet()
+			},
+			fetchAlphabets(){
+				const config = {
 					method: "GET"
 				}
-				const res = await fetch(this.apiRoute, init).then(data => data.json());
+				const queryParams = {
+					category: this.currentCategory
+				}
+				const path = `${this.apiRoute}?${new URLSearchParams(queryParams)}`
+				return fetch(path, config).then(data => data.json());
+			},
+			emptyArray(){
+				this.alphabetsArray = []
+			},
+			putAllAlphabetsIntoArray(res){
 				for (const wordObj in res.resBody) {
 					this.alphabetsArray.push({key: wordObj, value: res.resBody[wordObj]})
 				}
-				this.initializeCounts()
-				this.adjustCurrentAlphabet()
 			},
 			initializeCounts(){
 				this.totalQuestionsCount = this.alphabetsArray.length
@@ -169,10 +200,6 @@
 		height: 30px;
 		width: 100%;
 		font-size: 24px;
-	}
-
-	.active {
-		color: red;
 	}
 </style>
 

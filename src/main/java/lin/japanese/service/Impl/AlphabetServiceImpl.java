@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lin.japanese.domain.Alphabet;
 import lin.japanese.dto.AlphabetAddDto;
+import lin.japanese.dto.AlphabetQueryDto;
 import lin.japanese.repository.AlphabetRespoitory;
 import lin.japanese.service.AlphabetService;
 
@@ -17,8 +18,8 @@ public class AlphabetServiceImpl implements AlphabetService {
 	AlphabetRespoitory alphabetRespoitory;
 
 	@Override
-	public List<Alphabet> getAlphabets() {
-		return alphabetRespoitory.findAll();
+	public List<Alphabet> getAlphabets(AlphabetQueryDto queryDto) {
+		return alphabetRespoitory.findAllByCategory(queryDto.getCategory());
 	}
 
 	@Override
