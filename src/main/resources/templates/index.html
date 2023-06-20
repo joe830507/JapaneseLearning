@@ -9,12 +9,15 @@
 
 <body>
 	<div id="app">
-		<select v-model="currentSection">
+		<select 
+			v-model="currentSection"
+			@Change="checkWhetherFetchOrNot">
 			<option value="Alphabet">五十音</option>
+			<option value="Alphabet-List">五十音表</option>
 			<option value="Word">單字</option>
 		</select>
 		<select 
-			v-if="currentSection==='Alphabet'" 
+			v-if="currentSection==='Alphabet' || currentSection==='Alphabet-List'" 
 			v-model="currentCategory"
 			@Change="getAlphabets">
 			<option value="A">平假名</option>
@@ -58,8 +61,12 @@
 				<td></td>
 			</tr>
 		</table>
-		<div >
-
+		<div v-if="currentSection==='Alphabet-List'">
+			<ul>
+				<li v-for="(item, index) in alphabetsArray">
+					{{item.key}} : {{item.props.roma}}
+				</li>
+			</ul>
 		</div>
 	</div>
 </body>
@@ -93,6 +100,12 @@
 			}
 		},
 		methods: {
+			checkWhetherFetchOrNot(){
+				if(this.currentSection === 'Alphabet-List' || 
+				   this.currentSection === 'Alphabet'){
+					this.getAlphabets()
+				}
+			},
 			async getAlphabets() {
 				const res = await this.fetchAlphabets()
 				if(Object.keys(res.resBody).length === 0) return;
@@ -102,22 +115,23 @@
 				this.adjustCurrentAlphabet()
 			},
 			fetchAlphabets(){
-				const config = {
+				const init = {
 					method: "GET"
 				}
 				const queryParams = {
 					category: this.currentCategory
 				}
-				const path = `${this.apiRoute}?${new URLSearchParams(queryParams)}`
-				return fetch(path, config).then(data => data.json());
+				const url = `${this.apiRoute}?${new URLSearchParams(queryParams)}`
+				return fetch(url, init).then(data => data.json());
 			},
 			emptyArray(){
 				this.alphabetsArray = []
 			},
 			putAllAlphabetsIntoArray(res){
 				for (const wordObj in res.resBody) {
-					this.alphabetsArray.push({key: wordObj, value: res.resBody[wordObj]})
+					this.alphabetsArray.push({key: wordObj, props: res.resBody[wordObj]})
 				}
+				this.alphabetsArray = this.alphabetsArray.sort((a, b) => a.props.sort - b.props.sort )
 			},
 			initializeCounts(){
 				this.totalQuestionsCount = this.alphabetsArray.length
@@ -125,11 +139,13 @@
 				this.checkedCount = 0
 			},
 			adjustCurrentAlphabet(){
-				this.romanWord = null
-				const index = Math.floor(Math.random() * this.alphabetsArray.length)
-				this.japaneseWord = this.alphabetsArray[index].key
-				this.correctAnswer = this.alphabetsArray[index].value
-				this.alphabetsArray.splice(index, 1)
+				if(this.currentSection === 'Alphabet'){
+					this.romanWord = null
+					const index = Math.floor(Math.random() * this.alphabetsArray.length)
+					this.japaneseWord = this.alphabetsArray[index].key
+					this.correctAnswer = this.alphabetsArray[index].props.roma
+					this.alphabetsArray.splice(index, 1)
+				}
 			},
 			changeWord() {
 				if (!this.romanWord) {
