@@ -32,4 +32,6 @@ public class Alphabet {
 	 */
 	@Column(name = "CATEGORY")
 	private String category;
+	@Column(name = "SORT")
+	private Integer sort;
 }
